@@ -1,0 +1,46 @@
+:root {
+    --bg-login: #119DA4;
+    --bg-register: #4B3F72;
+}
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.link-register {
+    color: var(--bg-register);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+    .link-register:hover {
+        color: var(--bg-register);
+        text-decoration: underline;
+    }
+
+.btn-login {
+    background: white;
+    border: 2px solid var(--bg-login);
+    font-weight: 700;
+    color: var(--bg-login);
+}
+
+    .btn-login:hover {
+        background-color: var(--bg-login);
+        border: 2px solid var(--bg-login);
+    }
