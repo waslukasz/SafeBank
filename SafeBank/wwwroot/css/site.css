@@ -1,46 +1,186 @@
+/* 0.1 Custom fonts */
+
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@100;300;400;500');
+
+
+/* 0.2 Root */
 :root {
-    --bg-login: #119DA4;
-    --bg-register: #4B3F72;
+    --text-light: #eee;
+    --text-login: #2D82B7;
+    --text-option: #2D82B7;
+    --text-option-light: #4bace9;
+    --text-logout: #C05746;
+    --text-register: #93B5C6;
+    --bg-dark: #111;
+    --bg-register: #93B5C633;
+    --icon-primary: #535353;
+    --icon-primary-hover: #303030;
+    --icon-bg-primary: #a7a7a7;
+    --icon-bg-primary-hover: #9c9c9c;
+    --text-submenu: #F4FFF8;
+    --text-submenu-hover: #5b8c9e;
+    --bg-submenu: #334E58;
 }
 
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
+/* 1.1 Body */
 body {
-  margin-bottom: 60px;
+    background: var(--bg-dark);
+    color: var(--text-light);
+    font-family: 'Jost', arial;
+    width: 1280px;
+    margin: 0 auto;
 }
 
-.link-register {
-    color: var(--bg-register);
+
+/* 1.1 Navigation */
+nav {
+    height: 4em;
+    width: 100%;
+
+    padding: 1em;
+    box-sizing: border-box;
+
+    display: flex;
+    font-family: 'Jost', arial;
+    background-color: #333;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 1.2 Navigation - Brand */
+
+.nav-brand {
+    font-size: 1.3em;
     text-decoration: none;
-    font-weight: 500;
+    color: inherit;
 }
 
-    .link-register:hover {
-        color: var(--bg-register);
-        text-decoration: underline;
-    }
-
-.btn-login {
-    background: white;
-    border: 2px solid var(--bg-login);
-    font-weight: 700;
-    color: var(--bg-login);
+.nav-brand:hover {
+    color:inherit
 }
 
-    .btn-login:hover {
-        background-color: var(--bg-login);
-        border: 2px solid var(--bg-login);
-    }
+.nav-login, .nav-logout {
+    width: 8ch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 1.3 Navigation - Menu */
+.nav-menu {
+    display: flex;
+    gap: 1em;
+}
+.nav-menu > *{
+    display: flex;
+    align-items: center;
+}
+
+/* 1.3.1 Navigation - Menu - Guest */
+.nav-register {
+    position: relative;
+    color: var(--text-register);
+    text-decoration: none;
+    transition: background 0.1s;
+}
+
+.nav-register:before {
+    content: '';
+
+    height: 1px;
+    width: 100%;
+    
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: var(--text-register);
+}
+
+.nav-register:hover {
+    color: var(--text-register);
+    background: var(--bg-register);
+}
+
+.nav-login {
+    text-decoration: none;
+    color: var(--text-login);
+    padding: 3px 0;
+    border: 1px solid var(--text-login);
+    border-radius: 0.3em;
+    transition: background 0.3s, color 0.3s;
+}
+
+.nav-login:hover {
+    color: white;
+    background: var(--text-login);
+}
+
+/* 1.3.2 Navigation - Menu - User */
+.nav-logout {
+    text-decoration: none;
+    color: var(--text-logout);
+    padding: 3px 0;
+    border: 1px solid var(--text-logout);
+    border-radius: 0.3em;
+    transition: background 0.3s, color 0.3s;
+}
+
+.nav-logout:hover {
+    color: white;
+    background: var(--text-logout);
+}
+
+
+
+/* 1.3.3 Navigation - Menu - Submenu */
+.nav-option {
+    color: var(--text-option);
+    text-decoration: none;
+    position: relative;
+}
+
+.nav-option:hover > .nav-option-submenu {
+    display: flex;
+}
+
+.nav-option-submenu {
+    position: absolute;
+    width: fit-content;
+    background: var(--bg-submenu);
+    top: 100%;
+    box-sizing: border-box;
+    border-radius: 7px;
+    border: 1px solid black;
+    display: none;
+    flex-direction: column;
+    white-space: nowrap;
+    transition: transform .3s;
+}
+
+.nav-option-submenu > * {
+    padding: 2px 8px;
+    color: var(--text-submenu);
+    display: flex; gap: 10px;
+    border-bottom: 1px solid black;
+}
+
+.nav-option-submenu > *:first-child {
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+
+.nav-option-submenu > *:last-child {
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+    border: none;
+}
+
+.nav-option-submenu > *:hover {
+    background-color: var(--text-submenu-hover);
+}
+
+.nav-option-submenu > * > i{
+    color: #9c9c9c;
+}
+

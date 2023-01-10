@@ -7,21 +7,20 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/SafeBank.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
     <header>
-        <nav class="navbar bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand mb-0 h1" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/logo.svg" title="Logo" alt="Logo" height="32" class="d-inline-block"/>
-                    <span class="link-dark align-middle">SafeBank</span>
-                </a>
-
-                @if (!true) { //jesli  uzytkownik sie nie zalogowal
-                    @Html.Partial("GuestPartialNav")
+        <nav>
+            <a class="nav-brand" asp-area="" asp-controller="Home" asp-action="Index">SafeBank</a>
+            <div class="nav-menu">
+                @if (!true)
+                {
+                    @Html.Partial("GuestPartialNav");
                 }
-                else {
-                    @Html.Partial("UserPartialNav")
+                else
+                {
+                    @Html.Partial("UserPartialNav");
                 }
             </div>
         </nav>

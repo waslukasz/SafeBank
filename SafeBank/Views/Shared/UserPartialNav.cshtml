@@ -3,15 +3,31 @@
 *@
 @{
 }
-<div class="dropdown">
-    <img src="~/logo.svg" title="Logo" alt="Logo" height="32" class="d-inline-block dropdown-toggle" data-bs-toggle="dropdown"/>
 
-    <ul class="dropdown-menu dropdown-menu-end mt-3 dropdown-box-shadow">
-        <li><span class="dropdown-header">Actions</span></li>
-        <li><a class="dropdown-item" href="#">Make payment</a></li>
-        <li><a class="dropdown-item" href="#">Check balance</a></li>
-        <li><a class="dropdown-item" href="#">Account settings</a></li>
-        <li><hr class="dropdown-divider" /></li>
-        <li><a class="dropdown-item" href="#">Log out</a></li>
-    </ul>
-</div>
+<a class="nav-option">
+    <i class="material-icons">notifications</i>
+    <span>Notifications</span>
+    <i class="material-icons">expand_more</i>
+</a>
+
+<a class="nav-option">
+    <i class="material-icons">person</i>
+    <span>Name Surname</span>
+    <i class="material-icons">expand_more</i>
+    <div class="nav-option-submenu">
+        <span>
+            <i class="material-icons">account_circle</i>
+            My account
+        </span>
+        <span>
+            <i class="material-icons">payments</i>
+            Make payment
+        </span>
+        <span>
+            <i class="material-icons">settings</i>
+            Settings
+        </span>
+    </div>
+</a>
+
+<a class="nav-logout" asp-area="" asp-controller="Home" asp-action="Index">Logout</a>
