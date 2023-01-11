@@ -4,30 +4,30 @@
 @{
 }
 
-<a class="nav-option">
+<div class="nav__menu__option">
     <i class="material-icons">notifications</i>
-    <span>Notifications</span>
-    <i class="material-icons">expand_more</i>
-</a>
-
-<a class="nav-option">
-    <i class="material-icons">person</i>
-    <span>Name Surname</span>
-    <i class="material-icons">expand_more</i>
-    <div class="nav-option-submenu">
-        <span>
-            <i class="material-icons">account_circle</i>
-            My account
-        </span>
-        <span>
-            <i class="material-icons">payments</i>
-            Make payment
-        </span>
-        <span>
-            <i class="material-icons">settings</i>
-            Settings
-        </span>
+    <div class="nav__menu__option__submenu">
+        <div class="nav__menu__option__submenu__notifications-header">
+            <i class="material-icons">notifications</i>
+            Notifications
+        </div>
+        <div class="nav__menu__option__submenu__item">Your last payment for 29.13$ was succesful!</div>
+        <div class="nav__menu__option__submenu__item">Account charged $10 for netflix subscription.</div>
+        <div class="nav__menu__option__submenu__item">Technical break on next friday (13.01.2023).</div>
     </div>
-</a>
+</div>
 
-<a class="nav-logout" asp-area="" asp-controller="Home" asp-action="Index">Logout</a>
+<div class="nav__menu__option">
+    <i class="material-icons">person</i>
+    <div class="nav__menu__option__submenu">
+        <div class="nav__menu__option__submenu__user-header">
+            <i class="material-icons">account_circle</i>
+            John Doe
+        </div>
+        <div class="nav__menu__option__submenu__item">My account</div>
+        <div class="nav__menu__option__submenu__item">Make payment</div>
+        <div class="nav__menu__option__submenu__item">Settings</div>
+    </div>
+</div>
+
+<a class="nav__btn nav__btn--logout" asp-area="" asp-controller="Home" asp-action="Index">Logout</a>

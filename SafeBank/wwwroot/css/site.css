@@ -11,7 +11,6 @@
     --text-option-light: #4bace9;
     --text-logout: #C05746;
     --text-register: #93B5C6;
-    --bg-dark: #111;
     --bg-register: #93B5C633;
     --icon-primary: #535353;
     --icon-primary-hover: #303030;
@@ -19,15 +18,16 @@
     --icon-bg-primary-hover: #9c9c9c;
     --text-submenu: #F4FFF8;
     --text-submenu-hover: #5b8c9e;
-    --bg-submenu: #334E58;
+    --bg-nav: #333;
+    --bg-submenu: #3d3d3d;
+    --border-submenu: #686868;
+    --border-submenu-blur: #68686867;
 }
 
 /* 1.1 Body */
 body {
-    background: var(--bg-dark);
-    color: var(--text-light);
     font-family: 'Jost', arial;
-    width: 1280px;
+    max-width: 1600px;
     margin: 0 auto;
 }
 
@@ -42,7 +42,7 @@ nav {
 
     display: flex;
     font-family: 'Jost', arial;
-    background-color: #333;
+    background-color: var(--bg-nav);
 
     justify-content: space-between;
     align-items: center;
@@ -50,42 +50,69 @@ nav {
 
 /* 1.2 Navigation - Brand */
 
-.nav-brand {
+.nav__brand {
     font-size: 1.3em;
     text-decoration: none;
-    color: inherit;
+    color: var(--text-light);
 }
 
-.nav-brand:hover {
-    color:inherit
-}
-
-.nav-login, .nav-logout {
-    width: 8ch;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.nav__brand:hover {
+    color: var(--text-light);
 }
 
 /* 1.3 Navigation - Menu */
-.nav-menu {
+.nav__menu {
     display: flex;
-    gap: 1em;
+    position: relative;
+    gap: .5em;
 }
-.nav-menu > *{
+.nav__menu > *{
     display: flex;
     align-items: center;
 }
 
-/* 1.3.1 Navigation - Menu - Guest */
-.nav-register {
+.nav__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 10px;
+    font-weight: 500;
+    width: fit-content;
+    border: 1px solid currentColor;
+    transition: background 0.3s, color 0.3s;
+    text-decoration: none;
+    border-radius: 0.3em;
+}
+
+.nav__btn--login {
+    color: var(--text-login);
+    border: 1px solid var(--text-login);
+}
+
+.nav__btn--login:hover {
+    color: white;
+    background: var(--text-login);
+}
+
+.nav__btn--logout {
+    text-decoration: none;
+    color: var(--text-logout);
+    border: 1px solid var(--text-logout);
+}
+
+.nav__btn--logout:hover {
+    color: white;
+    background: var(--text-logout);
+}
+
+.nav__register {
     position: relative;
     color: var(--text-register);
     text-decoration: none;
     transition: background 0.1s;
 }
 
-.nav-register:before {
+.nav__register:before {
     content: '';
 
     height: 1px;
@@ -97,90 +124,104 @@ nav {
     background: var(--text-register);
 }
 
-.nav-register:hover {
+.nav__register:hover {
     color: var(--text-register);
     background: var(--bg-register);
 }
 
-.nav-login {
-    text-decoration: none;
-    color: var(--text-login);
-    padding: 3px 0;
-    border: 1px solid var(--text-login);
-    border-radius: 0.3em;
-    transition: background 0.3s, color 0.3s;
+/* 1.3.1 Navigation - Menu */
+.nav__menu__option i {
+    user-select: none;
 }
 
-.nav-login:hover {
-    color: white;
-    background: var(--text-login);
-}
-
-/* 1.3.2 Navigation - Menu - User */
-.nav-logout {
-    text-decoration: none;
-    color: var(--text-logout);
-    padding: 3px 0;
-    border: 1px solid var(--text-logout);
-    border-radius: 0.3em;
-    transition: background 0.3s, color 0.3s;
-}
-
-.nav-logout:hover {
-    color: white;
-    background: var(--text-logout);
-}
-
-
-
-/* 1.3.3 Navigation - Menu - Submenu */
-.nav-option {
+.nav__menu__option {
     color: var(--text-option);
-    text-decoration: none;
+    margin-right: 10px;
+    position: relative;
+    border-radius: 15%;
     position: relative;
 }
 
-.nav-option:hover > .nav-option-submenu {
-    display: flex;
+.nav__menu__option > i {
+    background: #0003;
+    padding: 7px;
+    border-radius: inherit;
 }
 
-.nav-option-submenu {
-    position: absolute;
-    width: fit-content;
+.nav__menu__option > i:hover  {
+    color: var(--text-option-light);
+    background: #fff1;
+    cursor: pointer;
+}
+
+
+/* 1.3.2 Navigation - Menu - Submenu */
+.nav__menu__option__submenu {
     background: var(--bg-submenu);
-    top: 100%;
-    box-sizing: border-box;
-    border-radius: 7px;
-    border: 1px solid black;
-    display: none;
-    flex-direction: column;
+    box-shadow: 1px 1px 4px #003;
+    position: absolute;
+    top: 120%;
+    left: 50%;
+    min-width: 150px;
+    transform: translateX(-50%);
     white-space: nowrap;
-    transition: transform .3s;
+    border-radius: 10px;
+    border: 1px solid var(--border-submenu);
+    box-sizing: border-box;
+    color: #ddd;
+    visibility: hidden;
 }
 
-.nav-option-submenu > * {
-    padding: 2px 8px;
-    color: var(--text-submenu);
-    display: flex; gap: 10px;
-    border-bottom: 1px solid black;
+.nav__menu__option.active .nav__menu__option__submenu {
+    animation: submenu_open .3s 1;
+    visibility: visible;
 }
 
-.nav-option-submenu > *:first-child {
-    border-top-left-radius: inherit;
-    border-top-right-radius: inherit;
+.nav__menu__option__submenu__item {
+    padding: 3px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-submenu-blur);
 }
 
-.nav-option-submenu > *:last-child {
-    border-bottom-left-radius: inherit;
-    border-bottom-right-radius: inherit;
+.nav__menu__option__submenu__item:hover {
+    background: #ffffff10;
+}
+
+.nav__menu__option__submenu__item:last-child {
     border: none;
 }
 
-.nav-option-submenu > *:hover {
-    background-color: var(--text-submenu-hover);
+.nav__menu__option__submenu__user-header i {
+    font-size: 2rem;
+}
+.nav__menu__option__submenu__user-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    color: white;
+    border-bottom: 2px solid var(--border-submenu-blur);
 }
 
-.nav-option-submenu > * > i{
-    color: #9c9c9c;
+.nav__menu__option__submenu__notifications-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 300px;
+    padding: 10px;
+    color: white;
+    border-bottom: 2px solid var(--border-submenu-blur);
 }
 
+@keyframes submenu_open {
+    0% {
+        visibility: hidden;
+        opacity: 0;
+    }
+    1% {
+        visibility: visible;
+    }
+    100% {
+        opacity: 1;
+    }
+}
