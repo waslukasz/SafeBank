@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -11,19 +14,7 @@
 </head>
 <body>
     <header>
-        <nav>
-            <a class="nav__brand" asp-area="" asp-controller="Home" asp-action="Index">SafeBank</a>
-            <div class="nav__menu">
-                @if (!true)
-                {
-                    <partial name="_GuestPartialNav"/>
-                }
-                else
-                {
-                    <partial name="_UserPartialNav" />
-                }
-            </div>
-        </nav>
+        <partial name="_Navigation"/>
     </header>
     <div class="container">
         <main role="main" class="pb-3">

@@ -11,26 +11,26 @@
     --text-option-light: #4bace9;
     --text-logout: #C05746;
     --text-register: #93B5C6;
+    --text-register-btn: #84A9C0; /* #8B95C9 */
     --bg-register: #93B5C633;
     --icon-primary: #535353;
     --icon-primary-hover: #303030;
     --icon-bg-primary: #a7a7a7;
     --icon-bg-primary-hover: #9c9c9c;
-    --text-submenu: #F4FFF8;
-    --text-submenu-hover: #5b8c9e;
+    --text-submenu: #cfcfcf;
+    --text-submenu-hover: #ffffff;
     --bg-nav: #333;
     --bg-submenu: #3d3d3d;
     --border-submenu: #686868;
     --border-submenu-blur: #68686867;
 }
 
-/* 1.1 Body */
+/* 1.1 Basics */
 body {
     font-family: 'Jost', arial;
     max-width: 1600px;
     margin: 0 auto;
 }
-
 
 /* 1.1 Navigation */
 nav {
@@ -65,6 +65,8 @@ nav {
     display: flex;
     position: relative;
     gap: .5em;
+    color: white;
+    align-items: center;
 }
 .nav__menu > *{
     display: flex;
@@ -181,9 +183,13 @@ nav {
     padding: 3px 10px;
     cursor: pointer;
     border-bottom: 1px solid var(--border-submenu-blur);
+    display: flex;
+    text-decoration: none;
+    color: var(--text-submenu);
 }
 
 .nav__menu__option__submenu__item:hover {
+    color: var(--text-submenu-hover);
     background: #ffffff10;
 }
 
@@ -225,3 +231,77 @@ nav {
         opacity: 1;
     }
 }
+
+/* 2.0 Account */
+.account-container {
+    max-width: 700px;
+    width: 100%;
+    background-color: #eee;
+    padding: 40px 40px;
+    margin: 0 auto;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.account-container h1 {
+    display: inline-flex;
+    font-size: 2em;
+    position: relative;
+}
+
+.account-container__panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 25px;
+}
+
+.account-container__panel div {
+    display: flex;
+    flex-direction: column;
+}
+
+@media only screen and (max-width: 700px) {
+    .account-container__panel--register {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
+
+.account-container__panel div .title {
+    font-weight: 500;
+}
+
+.account-container__panel div .hint {
+    font-size: 0.8em;
+    font-weight: 400;
+    color: #ED6A5A;
+}
+
+.account-container__panel div input {
+    padding: 0.3em;
+    border: 1px solid var(--icon-bg-primary);
+    border-radius: 3px;
+}
+
+.account-container__panel__submit {
+    color: var(--text-register-btn);
+    padding: 5px 10px;
+    border: 2px solid var(--text-register-btn);
+    font-weight: 500;
+    transition: background .3s, color .3s;
+}
+
+.account-container__panel__submit:hover {
+    color: white;
+    background: var(--text-register-btn);
+}
+
+.account-container__panel__rememberme {
+    margin: 5px 0px;
+}
+
+.account-container__panel__rememberme, .account-container__panel__rememberme input {
+    cursor: pointer;
+    user-select: none;
+}
+

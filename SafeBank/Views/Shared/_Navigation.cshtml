@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+<nav>
+    <a class="nav__brand" asp-area="" asp-controller="Home" asp-action="Index">SafeBank</a>
+    <div class="nav__menu">
+        @if (!SignInManager.IsSignedIn(User))
+        {
+            <a class="nav__register" asp-controller="Account" asp-action="Register">Create Account</a>
+            <a class="nav__btn nav__btn--login" asp-controller="Account" asp-action="Login">Login</a>
+        }
+        else
+        {
+            <div class="nav__menu__option">
+                <i class="material-icons">notifications</i>
+                <div class="nav__menu__option__submenu">
+                    <div class="nav__menu__option__submenu__notifications-header">
+                        <i class="material-icons">notifications</i>
+                        Notifications
+                    </div>
+                    <div class="nav__menu__option__submenu__item">Your last payment for 29.13$ was succesful!</div>
+                    <div class="nav__menu__option__submenu__item">Account charged $10 for netflix subscription.</div>
+                    <div class="nav__menu__option__submenu__item">Technical break on next friday (13.01.2023).</div>
+                </div>
+            </div>
+
+            <div class="nav__menu__option">
+                <i class="material-icons">person</i>
+                <div class="nav__menu__option__submenu">
+                    <div class="nav__menu__option__submenu__user-header">
+                        <i class="material-icons">account_circle</i>
+                        @UserManager.FindByNameAsync(User.Identity.Name).Result.FullName
+                    </div>
+                    <a asp-controller="Account" asp-action="Index" class="nav__menu__option__submenu__item">My account</a>
+                    <a class="nav__menu__option__submenu__item">Make payment</a>
+                    <a class="nav__menu__option__submenu__item">Settings</a>
+                </div>
+            </div>
+
+            <form id="logout_form" asp-controller="Account" asp-action="Logout" method="post">
+                <a href="javascript:{}" onclick="document.getElementById('logout_form').submit();" class="nav__btn nav__btn--logout">Logout</a>
+            </form>
+        }
+    </div>
+</nav>

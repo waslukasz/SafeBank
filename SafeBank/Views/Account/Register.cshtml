@@ -1,0 +1,46 @@
+﻿@using SafeBank.Models
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="account-container">
+    <form asp-controller="Account" asp-action="Register" method="post" role="form">
+        <h1>Create account</h1>
+        <hr />
+        <div class="account-container__panel account-container__panel--register">
+            <div>
+                <label asp-for="FullName" class="title"></label>
+                <input asp-for="FullName" placeholder="Enter your full name"/>
+                <span asp-validation-for="FullName" class="hint"></span>
+            </div>
+            <div>
+                <label asp-for="Email" class="title"></label>
+                <input asp-for="Email" placeholder="Enter your email" />
+                <span asp-validation-for="Email" class="hint"></span>
+            </div>
+            <div>
+                <label asp-for="PESEL" class="title"></label>
+                <input asp-for="PESEL" placeholder="Enter your PESEL" />
+                <span asp-validation-for="PESEL" class="hint"></span>
+            </div>
+            <div>
+                <label asp-for="DateOfBirth" class="title"></label>
+                <input asp-for="DateOfBirth" placeholder="Enter email address" />
+                <span asp-validation-for="DateOfBirth" class="hint"></span>
+            </div>
+            <div>
+                <label asp-for="Password" class="title"></label>
+                <input asp-for="Password" placeholder="Enter your password" />
+                <span asp-validation-for="Password" class="hint"></span>
+            </div>
+            <div>
+                <label asp-for="ConfirmPassword" class="title"></label>
+                <input asp-for="ConfirmPassword" placeholder="Confirm your password" />
+                <span asp-validation-for="ConfirmPassword" class="hint"></span>
+            </div>
+        </div>
+        <br />
+        <button class="account-container__panel__submit" type="submit">Register</button>
+    </form>
+</div>
