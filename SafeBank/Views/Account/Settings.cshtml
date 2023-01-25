@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Account settings";
+}
+@using SafeBank.Models.ViewModels;
+@model SettingsViewModel
+
+<div class="account-container">
+    <form asp-controller="Account" asp-action="Settings" method="post" role="form">
+        <h1>Your settings</h1>
+        <h6>This is your account settings page.</h6>
+        <hr />
+        <span>You can change your personal information here. Only edited fields will be affected.</span>
+        <br /><br />
+        <div class="account-container__panel account-container__panel--register">
+            <div>
+                <label asp-for="CurrentPassword" class="title"></label>
+                <input asp-for="CurrentPassword" placeholder="Enter new password" />
+                <span asp-validation-for="CurrentPassword" class="hint"></span>
+            </div>
+            <div></div>
+            <div>
+                <label asp-for="FullName" class="title"></label>
+                <input asp-for="FullName" placeholder="Enter new full name" />
+                <span asp-validation-for="FullName" class="hint"></span>
+            </div>
+            <div>
+                <label asp-for="Email" class="title"></label>
+                <input asp-for="Email" placeholder="Enter new email" />
+                <span asp-validation-for="Email" class="hint"></span>
+            </div>
+            <div>
+                <label asp-for="PESEL" class="title"></label>
+                <input asp-for="PESEL" placeholder="Enter new PESEL" />
+                <span asp-validation-for="PESEL" class="hint"></span>
+            </div>
+            <div>
+                <label asp-for="DateOfBirth" class="title"></label>
+                <input asp-for="DateOfBirth" />
+                <span asp-validation-for="DateOfBirth" class="hint"></span>
+            </div>
+            <div>
+                <label asp-for="NewPassword" class="title"></label>
+                <input asp-for="NewPassword" placeholder="Enter new password" />
+                <span asp-validation-for="NewPassword" class="hint"></span>
+            </div>
+        </div>
+        <br />
+        <button class="account-container__panel__submit" type="submit">Apply changes</button>
+    </form>
+</div>

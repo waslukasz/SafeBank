@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Login";
 }
+@using SafeBank.Models.ViewModels
 @model LoginViewModel
 
 <div class="account-container">
@@ -15,15 +16,15 @@
             </div>
             <div>
                 <label asp-for="Password" class="title"></label>
-                <input asp-for="Password" placeholder="Confirm your password" />
+                <input asp-for="Password" placeholder="Enter your password" />
                 <span asp-validation-for="Password" class="hint"></span>
             </div>
             <label class="account-container__panel__rememberme" asp-for="RememberMe">
                 <input asp-for="RememberMe" />
                 @Html.DisplayNameFor(i => i.RememberMe)
             </label>
+            <div></div>
         </div>
-        <div asp-validation-for="All" class="hint"></div>
         <br />
         <button class="account-container__panel__submit" type="submit">Login</button>
     </form>

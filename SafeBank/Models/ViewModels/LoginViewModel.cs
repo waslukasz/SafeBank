@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SafeBank.Models
+namespace SafeBank.Models.ViewModels
 {
     public class LoginViewModel
     {
         [Required]
+        [Display(Name = "Email address")]
         public string UserName { get; set; }
 
         [Required]

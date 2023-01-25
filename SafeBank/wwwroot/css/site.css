@@ -12,6 +12,10 @@
     --text-logout: #C05746;
     --text-register: #93B5C6;
     --text-register-btn: #84A9C0; /* #8B95C9 */
+    --text-account-option-link: #0081A7;
+    --text-account-option-link-hover: #06d1db;
+    --text-account-option-link-delete: #A52422;
+    --text-account-option-link-delete-hover: #f7423f;
     --bg-register: #93B5C633;
     --icon-primary: #535353;
     --icon-primary-hover: #303030;
@@ -305,3 +309,33 @@ nav {
     user-select: none;
 }
 
+.account-options {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+}
+
+.account-options__option {
+    margin: 0 25px 0 0;
+    color: var(--text-account-option-link);
+    font-size: 1.2em;
+}
+
+.account-options__option:hover {
+    color: var(--text-account-option-link-hover);
+}
+
+.account-options__option:last-child {
+    color: var(--text-account-option-link-delete);
+}
+
+.account-options__option:last-child:hover {
+    color: var(--text-account-option-link-delete-hover);
+}
+
+.account-container__info {
+    user-select: all;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-account-option-link);
+}

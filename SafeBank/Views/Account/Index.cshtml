@@ -1,6 +1,33 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Account";
 }
-This is Account/Index website.
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+@{
+    var user = UserManager.GetUserAsync(User).Result;
+}
+
+<div class="account-container">
+    <h1>Account</h1>
+    <h6>Welcome to account details page.</h6>
+    <hr />
+    <h4>Hi, @user.FullName!</h4>
+    Welcome to your account. Here you can access all important account information.
+    <br /><br />
+    <h3>
+        Account no:<br />
+        <span class="account-container__info">@user.AccountNumber</span>
+    </h3>
+    <br />
+    <h3>Balance:<br />
+        <span class="account-container__info">@user.Balance.ToString("#,##0.00", new System.Globalization.CultureInfo("en-US"))$</span>
+    </h3>
+    <br />
+    <div class="account-options">
+        <a class="account-options__option" asp-controller="Account" asp-action="Payment">Make payment</a>
+        <a class="account-options__option" asp-controller="Account" asp-action="Index">History</a>
+        <a class="account-options__option" asp-controller="Account" asp-action="Settings">Account settings</a>
+        <a class="account-options__option" asp-controller="Account" asp-action="Index">Delete account</a>
+    </div>
+</div>

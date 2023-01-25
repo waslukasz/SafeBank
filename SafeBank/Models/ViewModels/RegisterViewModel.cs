@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace SafeBank.Models
+namespace SafeBank.Models.ViewModels
 {
 
     public class RegisterViewModel
@@ -53,7 +53,7 @@ namespace SafeBank.Models
         public override bool IsValid(object value)
         {
             DateTime date;
-            if ((value != null && DateTime.TryParse(value.ToString(), out date)))
+            if (value != null && DateTime.TryParse(value.ToString(), out date))
             {
                 return date.AddYears(MinimumAge) < DateTime.Now;
             }

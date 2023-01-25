@@ -1,8 +1,8 @@
-﻿@using SafeBank.Models
-@model RegisterViewModel
-@{
+﻿@{
     ViewData["Title"] = "Register";
 }
+@using SafeBank.Models.ViewModels;
+@model RegisterViewModel
 
 <div class="account-container">
     <form asp-controller="Account" asp-action="Register" method="post" role="form">
@@ -26,7 +26,7 @@
             </div>
             <div>
                 <label asp-for="DateOfBirth" class="title"></label>
-                <input asp-for="DateOfBirth" placeholder="Enter email address" />
+                <input asp-for="DateOfBirth" />
                 <span asp-validation-for="DateOfBirth" class="hint"></span>
             </div>
             <div>

@@ -30,11 +30,11 @@
                 <div class="nav__menu__option__submenu">
                     <div class="nav__menu__option__submenu__user-header">
                         <i class="material-icons">account_circle</i>
-                        @UserManager.FindByNameAsync(User.Identity.Name).Result.FullName
+                        @UserManager.GetUserAsync(User).Result.FullName
                     </div>
                     <a asp-controller="Account" asp-action="Index" class="nav__menu__option__submenu__item">My account</a>
-                    <a class="nav__menu__option__submenu__item">Make payment</a>
-                    <a class="nav__menu__option__submenu__item">Settings</a>
+                    <a asp-controller="Account" asp-action="Payment" class="nav__menu__option__submenu__item">Make payment</a>
+                    <a asp-controller="Account" asp-action="Settings" class="nav__menu__option__submenu__item">Settings</a>
                 </div>
             </div>
 

@@ -12,8 +12,8 @@ using SafeBank.Data;
 namespace SafeBank.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230123212925_init")]
-    partial class init
+    [Migration("20230124200012_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -166,6 +166,16 @@ namespace SafeBank.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int>("AccountNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountNumber"), 10000L);
+
+                    b.Property<decimal>("Balance")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -236,23 +246,101 @@ namespace SafeBank.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1",
+                            Id = "1a7addfc-89fa-4f4e-8171-3b07035b6085",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "12003c15-06a8-4957-863e-6e67eaef5690",
-                            DateOfBirth = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "admin@admin.pl",
+                            AccountNumber = 0,
+                            Balance = 0m,
+                            ConcurrencyStamp = "b29f91a6-3aa8-4bb8-b004-ce2c704b1c30",
+                            DateOfBirth = new DateTime(1999, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "johndoe@example.com",
                             EmailConfirmed = false,
-                            FullName = "Admin Admin",
+                            FullName = "John Doe",
                             LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@ADMIN.PL",
-                            NormalizedUserName = "ADMIN",
-                            PESEL = "11111111111",
-                            PasswordHash = "AQAAAAEAACcQAAAAEA35X46apUYnKlBihdlFcyX+aELzuoLeVnSLukI35bxnJXKgO+gzOVOt6cPFuEzCjA==",
+                            NormalizedEmail = "JOHNDOE@EXAMPLE.COM",
+                            NormalizedUserName = "JOHNDOE@EXAMPLE.COM",
+                            PESEL = "22222222222",
+                            PasswordHash = "AQAAAAEAACcQAAAAECk/wpKvOweajDROFpm8rLKV7SVsG9nVays4KGf7YupOFGi7rqzki3Xz4K4lHRUUFg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ccccbfb8-1901-4349-87e4-9286bd818dc8",
+                            SecurityStamp = "41d4d43e-9f33-409d-9795-e8a9293ce374",
                             TwoFactorEnabled = false,
-                            UserName = "Admin"
+                            UserName = "johndoe@example.com"
+                        },
+                        new
+                        {
+                            Id = "51dda72b-3636-4b29-b09c-62da288b7445",
+                            AccessFailedCount = 0,
+                            AccountNumber = 0,
+                            Balance = 500000m,
+                            ConcurrencyStamp = "bcf8269f-58ad-4667-978b-a602fb526110",
+                            DateOfBirth = new DateTime(2001, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "lucasdoe@example.com",
+                            EmailConfirmed = false,
+                            FullName = "Lucas Doe",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "LUCASDOE@EXAMPLE.COM",
+                            NormalizedUserName = "LUCASDOE@EXAMPLE.COM",
+                            PESEL = "22222222222",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJxYpBaz37xwGyw+qUUrp9ub4UKUkRLdXBmr6dTQyvEtwpdPnKTgTcYy1ZcHfYwYMg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "229689fa-8d79-45e9-8d52-1153a4a76301",
+                            TwoFactorEnabled = false,
+                            UserName = "lucasdoe@example.com"
+                        },
+                        new
+                        {
+                            Id = "67f0426a-a053-40e4-9f23-6cb5d7d84cd6",
+                            AccessFailedCount = 0,
+                            AccountNumber = 0,
+                            Balance = 10000000m,
+                            ConcurrencyStamp = "ec88b208-d4d2-4f6e-8dcc-908e815eb49e",
+                            DateOfBirth = new DateTime(2006, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "thomasdoe@example.com",
+                            EmailConfirmed = false,
+                            FullName = "Thomas Doe",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "THOMASDOE@EXAMPLE.COM",
+                            NormalizedUserName = "THOMASDOE@EXAMPLE.COM",
+                            PESEL = "22222222222",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOXjLySXlVc3179/XhzRkUJ+rzx0SDrGpzlD8yggnjeIx84IvHiQDZ/cLJ1YlXV0pg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "6216579e-eecc-4c97-937d-fd32d2f620b3",
+                            TwoFactorEnabled = false,
+                            UserName = "thomasdoe@example.com"
                         });
+                });
+
+            modelBuilder.Entity("SafeBank.Models.Transaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RecipientId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SenderId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Transactions", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -304,6 +392,21 @@ namespace SafeBank.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SafeBank.Models.Transaction", b =>
+                {
+                    b.HasOne("SafeBank.Models.AppUser", "Recipient")
+                        .WithMany()
+                        .HasForeignKey("RecipientId");
+
+                    b.HasOne("SafeBank.Models.AppUser", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId");
+
+                    b.Navigation("Recipient");
+
+                    b.Navigation("Sender");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "New payment";
+
+    // Serach user by account id
+    // AppUser user = appDbContext.Users.Where(user => user.AccountNumber == 10000).FirstOrDefault();
+}
+@using SafeBank.Models.ViewModels
+@model PaymentViewModel
+
+<div class="account-container">
+    <form asp-controller="Account" asp-action="Payment" method="post" role="form">
+        <h1>Login to your account</h1>
+        <hr />
+        <div class="account-container__panel">
+            <div>
+                <label asp-for="Sender" class="title"></label>
+                <input asp-for="Sender" disabled />
+                <span asp-validation-for="Sender" class="hint"></span>
+            </div>
+
+            <div>
+                <label asp-for="Recipient" class="title"></label>
+                <input asp-for="Recipient" placeholder="Enter recipient account number" />
+                <span asp-validation-for="Sender" class="hint"></span>
+            </div>
+
+            <div>
+                <label asp-for="Title" class="title"></label>
+                <input asp-for="Title" placeholder="Enter payment title" />
+                <span asp-validation-for="Title" class="hint"></span>
+            </div>
+
+            <div>
+                <label asp-for="Amount" class="title"></label>
+                <input min="0" asp-for="Amount" placeholder="Enter amount" />
+                <span asp-validation-for="Amount" class="hint"></span>
+            </div>
+        </div>
+        <br />
+        <button class="account-container__panel__submit" type="submit">Make payment</button>
+    </form>
+</div>
