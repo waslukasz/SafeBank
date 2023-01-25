@@ -1,0 +1,47 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+}
+@model List<Transaction>
+@inject UserRepository userRepository
+@inject AccountRepository accountRepository
+
+<div class="account-container">
+    <h1>Transaction history</h1>
+    <hr />
+    @if (Model.Count() == 0)
+    {
+        <h6>You don't have any history of transactions.</h6>
+    }
+    else
+    {
+        <table class="table" id="sortTable">
+            <thead>
+            <th scope="col">#</th>
+            <th scope="col">Sender</th>
+            <th scope="col">Recipient</th>
+            <th scope="col">Title</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Date</th>
+            </thead>
+            <tbody>
+                @{
+                    var i = 1;
+                }
+                @foreach (var tran in Model)
+                {
+                    <tr>
+                        <th scope="col">@(i++)</th>
+                        <td>@userRepository.GetUserByAccountIBAN(tran.Sender).FullName</td>
+                        <td>@userRepository.GetUserByAccountIBAN(tran.Recipient).FullName</td>
+                        <td>@tran.Title</td>
+                        <td>@tran.Amount$</td>
+                        <td>@tran.Date</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

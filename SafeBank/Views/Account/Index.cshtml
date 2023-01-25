@@ -2,8 +2,9 @@
     ViewData["Title"] = "Account";
 }
 @using Microsoft.AspNetCore.Identity
-@inject SignInManager<AppUser> SignInManager
-@inject UserManager<AppUser> UserManager
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@inject AccountRepository AccountRepository
 @{
     var user = UserManager.GetUserAsync(User).Result;
 }
@@ -17,17 +18,16 @@
     <br /><br />
     <h3>
         Account no:<br />
-        <span class="account-container__info">@user.AccountNumber</span>
+        <span class="account-container__info">@AccountRepository.GetAccountByOwner(user).IBAN</span>
     </h3>
     <br />
     <h3>Balance:<br />
-        <span class="account-container__info">@user.Balance.ToString("#,##0.00", new System.Globalization.CultureInfo("en-US"))$</span>
+        <span class="account-container__info">@AccountRepository.GetAccountByOwner(UserManager.GetUserAsync(User).Result).Balance.ToString("#,##0.00", new System.Globalization.CultureInfo("en-US"))$</span>
     </h3>
     <br />
     <div class="account-options">
         <a class="account-options__option" asp-controller="Account" asp-action="Payment">Make payment</a>
-        <a class="account-options__option" asp-controller="Account" asp-action="Index">History</a>
-        <a class="account-options__option" asp-controller="Account" asp-action="Settings">Account settings</a>
-        <a class="account-options__option" asp-controller="Account" asp-action="Index">Delete account</a>
+        <a class="account-options__option" asp-controller="Account" asp-action="History">History</a>
+        <a class="account-options__option" asp-controller="User" asp-action="Settings">Account settings</a>
     </div>
 </div>

@@ -1,0 +1,50 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using Microsoft.EntityFrameworkCore;
+@using SafeBank.Data;
+@inject NotificationRepository notificationRepository
+@inject UserManager<User> userManager
+@inject AccountRepository accountRepository
+@inject UserRepository userRepository
+@{
+    var currentUser = userManager.GetUserAsync(User).Result;
+    var result = notificationRepository.GetNotificationsByUser(currentUser);
+}
+
+
+<div class="nav__menu__option">
+    <i class="material-icons">
+        notifications
+
+        @if (result.Count() > 0)
+        {
+            <span></span>
+        }
+    </i>
+
+    <div class="nav__menu__option__submenu">
+        <div class="nav__menu__option__submenu__notifications-header">
+            <i class="material-icons">notifications</i>
+            Notifications
+            <span class="nav__menu__option__submenu__notifications-header__title">Here are your 5 last actions.</span>
+        </div>
+
+@*        @if (result.Count() < 1)
+        {
+            <div class="nav__menu__option__submenu__item">You have no new notifications!</div>
+        }
+        else
+        {
+            @foreach (var noti in result)
+            {
+                if (!(noti.Target == userRepository.GetUserByAccountIBAN(accountRepository.GetAccountByOwner(currentUser).IBAN).Id))
+                {
+                    <div class="nav__menu__option__submenu__item">You sent @noti.Transaction.Amount$ to @.FullName @recipient.FullName.</div>
+                }
+                else
+                {
+                    <div class="nav__menu__option__submenu__item">@sender.FullName sent you @noti.Transaction.Amount$.</div>
+                }
+            }
+        }*@
+    </div>
+</div>

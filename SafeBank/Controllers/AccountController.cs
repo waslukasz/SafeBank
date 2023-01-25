@@ -1,22 +1,34 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.IdentityModel.Tokens;
 using SafeBank.Data;
 using SafeBank.Models;
 using SafeBank.Models.ViewModels;
+using System;
 
 namespace SafeBank.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<AppUser> userManager;
-        private readonly SignInManager<AppUser> signInManager;
+        private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
         private readonly ApplicationDbContext appDbContext;
+        private readonly AccountRepository accountRepository;
+        private readonly TransactionRepository transactionRepository;
+        private readonly NotificationRepository notificationRepository;
+        private readonly UserRepository userRepository;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ApplicationDbContext appDbContext)
+        public AccountController(UserManager<User> userManager, AccountRepository accountRepository, NotificationRepository notificationRepository, TransactionRepository transactionRepository, SignInManager<User> signInManager, UserRepository userRepository, ApplicationDbContext appDbContext)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.notificationRepository = notificationRepository;
+            this.accountRepository = accountRepository;
+            this.transactionRepository = transactionRepository;
+            this.userRepository = userRepository;
             this.appDbContext = appDbContext;
         }
 
@@ -26,10 +38,9 @@ namespace SafeBank.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login(string returnUrl = null)
+        public IActionResult Login()
         {
             var loginViewModel = new LoginViewModel();
-            loginViewModel.ReturnUrl = returnUrl ?? Url.Content("~/");
             return View(loginViewModel);
         }
 
@@ -37,16 +48,12 @@ namespace SafeBank.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var result = await signInManager.PasswordSignInAsync(loginViewModel.UserName, loginViewModel.Password, loginViewModel.RememberMe, lockoutOnFailure: false);
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
-                }
-                if(result.IsLockedOut)
-                {
-                    return View("Lockout");
                 }
                 else
                 {
@@ -57,6 +64,7 @@ namespace SafeBank.Controllers
             return View(loginViewModel);
         }
 
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
@@ -66,35 +74,51 @@ namespace SafeBank.Controllers
 
         public async Task<IActionResult> Register(string? returnUrl = null)
         {
-            RegisterViewModel registerViewModel = new RegisterViewModel();
-            registerViewModel.DateOfBirth = new DateTime(day: 1, month: 1, year: DateTime.Today.Year-18);
-            registerViewModel.ReturnUrl = returnUrl;
+            RegisterViewModel registerViewModel = new RegisterViewModel()
+            {
+                DateOfBirth = new DateTime(day: 1, month: 1, year: DateTime.Today.Year - 18)
+            };
             return View(registerViewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel registerViewModel, string? returnUrl)
+        public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
-            registerViewModel.ReturnUrl = returnUrl;
-            returnUrl = returnUrl ?? Url.Content("~/");
-
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                var user = new AppUser
+                var user = new User
                 {
+                    FullName = registerViewModel.FullName,
                     Email = registerViewModel.Email,
                     UserName = registerViewModel.Email,
-                    FullName = registerViewModel.FullName,
-                    PESEL = registerViewModel.PESEL,
                     DateOfBirth = registerViewModel.DateOfBirth
                 };
                 var result = await userManager.CreateAsync(user, registerViewModel.Password);
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+
+                    while (true)
+                    {
+                        Random rand = new Random(int.Parse("0123456789".ToArray()));
+                        string gen = rand.Next(10000, 99999).ToString();
+
+                        if (!appDbContext.Accounts.Select(acc => acc.IBAN == gen).IsNullOrEmpty()) continue;
+
+                        Account account = new Account()
+                        {
+                            IBAN = gen,
+                            OwnerId = user.Id,
+                            Balance = 0
+                        };
+
+                        appDbContext.Accounts.Add(account);
+                        appDbContext.SaveChanges();
+                        break;
+                    }
+                    return RedirectToAction("Index", "Account");
                 }
-                ModelState.AddModelError("Password", "User could not be created. Password not unique enough.");
+                ModelState.AddModelError("Email", "User could not be created. Email already taken.");
             }
             return View(registerViewModel);
         }
@@ -108,7 +132,6 @@ namespace SafeBank.Controllers
             {
                 FullName = user.FullName,
                 Email = user.Email,
-                PESEL = user.PESEL,
                 DateOfBirth = user.DateOfBirth,
             };
 
@@ -125,9 +148,9 @@ namespace SafeBank.Controllers
                 if (user == null) { return RedirectToAction("Index", "Home"); }
                 if (userManager.CheckPasswordAsync(user, settingsViewModel.CurrentPassword).Result)
                 {
-                    user.PESEL = settingsViewModel.PESEL;
                     user.FullName = settingsViewModel.FullName;
                     user.Email = settingsViewModel.Email;
+                    user.UserName = settingsViewModel.Email;
                     user.DateOfBirth = settingsViewModel.DateOfBirth;
                     appDbContext.SaveChanges();
                 }
@@ -137,8 +160,63 @@ namespace SafeBank.Controllers
                 }
                 return RedirectToAction("Index", "Account");
             }
-            ModelState.AddModelError("CurrentPassword", "Current password is wrong.");
             return View(settingsViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Payment()
+        {
+            PaymentViewModel paymentViewModel = new PaymentViewModel();
+            paymentViewModel.SenderAccountNo = accountRepository.GetAccountByOwner(userManager.GetUserAsync(User).Result).IBAN;
+            return View(paymentViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Payment(PaymentViewModel paymentViewModel)
+        {
+            var sender = accountRepository.GetAccountByOwner(userManager.GetUserAsync(User).Result);
+            paymentViewModel.SenderAccountNo = sender.IBAN;
+            var recipient = accountRepository.GetAccounts().FirstOrDefault(acc => acc.IBAN == paymentViewModel.RecipientAccountNo);
+            if (recipient == null)
+            {
+                ModelState.AddModelError("RecipientAccountNo", "This account number does not exist.");
+                return View(paymentViewModel);
+            }
+
+            if (paymentViewModel.Amount <= 0)
+            {
+                ModelState.AddModelError("Amount", "Amount must be positive.");
+            }
+
+            if (paymentViewModel.Amount > sender.Balance)
+            {
+                ModelState.AddModelError("Amount", $"You don't have enough funds. Your balance: {sender.Balance}.");
+            }
+
+            if (!ModelState.IsValid) return View(paymentViewModel);
+
+            var transaction = new Transaction()
+            {
+                Sender = sender.IBAN,
+                Recipient = recipient.IBAN,
+                Title = paymentViewModel.Title,
+                Amount = paymentViewModel.Amount,
+                Date = DateTime.Now
+            };
+
+            transactionRepository.RegisterTransaction(transaction);
+            notificationRepository.CreateFromTransaction(transaction);
+
+            return View("PaymentSuccess", transaction);
+        }
+
+        [HttpGet]
+        public IActionResult History()
+        {
+            var currentAccount = accountRepository.GetAccountByOwner(userManager.GetUserAsync(User).Result);
+            var result = appDbContext.Transactions.Where(tran => tran.Sender == currentAccount.IBAN || tran.Recipient == currentAccount.IBAN).ToList();
+            return View(result);
         }
     }
 }

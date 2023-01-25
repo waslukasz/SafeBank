@@ -17,11 +17,6 @@ namespace SafeBank.Models.ViewModels
         public string Email { get; set; }
 
         [Required(ErrorMessage = "This field is required!")]
-        [RegularExpression("^\\d{11}$", ErrorMessage = "PESEL is made of 11 numbers.")]
-        [Display(Name = "PESEL")]
-        public string PESEL { get; set; }
-
-        [Required(ErrorMessage = "This field is required!")]
         [DateMinimumAge(18)]
         [DisplayFormat(DataFormatString = "dd/mm/yyyy")]
         [DataType(DataType.Date)]
@@ -38,8 +33,6 @@ namespace SafeBank.Models.ViewModels
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-
-        public string? ReturnUrl { get; set; }
     }
 
     public class DateMinimumAgeAttribute : ValidationAttribute

@@ -17,10 +17,6 @@ namespace SafeBank.Models.ViewModels
         [Display(Name = "Email address")]
         public string Email { get; set; }
 
-        [RegularExpression("^\\d{11}$", ErrorMessage = "PESEL is made of 11 numbers.")]
-        [Display(Name = "PESEL")]
-        public string PESEL { get; set; }
-
         [DateMinimumAge(18)]
         [DisplayFormat(DataFormatString = "dd/mm/yyyy")]
         [DataType(DataType.Date)]

@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "New payment";
+
+    var sender = userRepository.GetUserByAccountIBAN(Model.Sender);
+    var recipient = userRepository.GetUserByAccountIBAN(Model.Recipient);
+}
+@inject AccountRepository accountRepository
+@inject UserRepository userRepository
+@model Transaction
+
+<h1>Payment success!</h1><br />
+<span>ID: @Model.Id</span><br />
+<span>Sender:  @sender.FullName (@accountRepository.GetAccountByOwner(sender).IBAN)</span>
+<br />
+<span>Recipient: @recipient.FullName (@accountRepository.GetAccountByOwner(recipient).IBAN)</span>
+<br />
+<span>Title: @Model.Title</span>
+<br />
+<span>Amount: @Model.Amount</span><br />
+<span>Date of transaction: @Model.Date</span><br />
+<a asp-action="Index" asp-controller="Account">Go back to account</a>

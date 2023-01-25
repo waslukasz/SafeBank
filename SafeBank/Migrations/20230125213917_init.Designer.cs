@@ -12,8 +12,8 @@ using SafeBank.Data;
 namespace SafeBank.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230124200012_Init")]
-    partial class Init
+    [Migration("20230125213917_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,23 +158,115 @@ namespace SafeBank.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("SafeBank.Models.AppUser", b =>
+            modelBuilder.Entity("SafeBank.Models.Account", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Balance")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("IBAN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Accounts", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Balance = 0m,
+                            IBAN = "10001",
+                            OwnerId = "1a7addfc-89fa-4f4e-8171-3b07035b6085"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Balance = 500000m,
+                            IBAN = "10002",
+                            OwnerId = "51dda72b-3636-4b29-b09c-62da288b7445"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Balance = 1000000m,
+                            IBAN = "10003",
+                            OwnerId = "67f0426a-a053-40e4-9f23-6cb5d7d84cd6"
+                        });
+                });
+
+            modelBuilder.Entity("SafeBank.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Target")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TransactionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TransactionId");
+
+                    b.ToTable("Notifications", (string)null);
+                });
+
+            modelBuilder.Entity("SafeBank.Models.Transaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Recipient")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Transactions", (string)null);
+                });
+
+            modelBuilder.Entity("SafeBank.Models.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
-
-                    b.Property<int>("AccountNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountNumber"), 10000L);
-
-                    b.Property<decimal>("Balance")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -207,10 +299,6 @@ namespace SafeBank.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PESEL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -248,9 +336,7 @@ namespace SafeBank.Migrations
                         {
                             Id = "1a7addfc-89fa-4f4e-8171-3b07035b6085",
                             AccessFailedCount = 0,
-                            AccountNumber = 0,
-                            Balance = 0m,
-                            ConcurrencyStamp = "b29f91a6-3aa8-4bb8-b004-ce2c704b1c30",
+                            ConcurrencyStamp = "549f61d9-c803-4a7b-90ef-43927e94d3d6",
                             DateOfBirth = new DateTime(1999, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "johndoe@example.com",
                             EmailConfirmed = false,
@@ -258,10 +344,9 @@ namespace SafeBank.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "JOHNDOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHNDOE@EXAMPLE.COM",
-                            PESEL = "22222222222",
-                            PasswordHash = "AQAAAAEAACcQAAAAECk/wpKvOweajDROFpm8rLKV7SVsG9nVays4KGf7YupOFGi7rqzki3Xz4K4lHRUUFg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEH8BX+5ldFseaAkhSH+CurjHRzA9o0lRCnYwZaDQdsh7W3/zk9ExgAqme7rX1dmdaw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "41d4d43e-9f33-409d-9795-e8a9293ce374",
+                            SecurityStamp = "0ed75c1c-52ed-40bc-9f62-eb45ea8eeca2",
                             TwoFactorEnabled = false,
                             UserName = "johndoe@example.com"
                         },
@@ -269,9 +354,7 @@ namespace SafeBank.Migrations
                         {
                             Id = "51dda72b-3636-4b29-b09c-62da288b7445",
                             AccessFailedCount = 0,
-                            AccountNumber = 0,
-                            Balance = 500000m,
-                            ConcurrencyStamp = "bcf8269f-58ad-4667-978b-a602fb526110",
+                            ConcurrencyStamp = "f24430d3-0431-4ec5-86a0-86e589d50664",
                             DateOfBirth = new DateTime(2001, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "lucasdoe@example.com",
                             EmailConfirmed = false,
@@ -279,10 +362,9 @@ namespace SafeBank.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "LUCASDOE@EXAMPLE.COM",
                             NormalizedUserName = "LUCASDOE@EXAMPLE.COM",
-                            PESEL = "22222222222",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJxYpBaz37xwGyw+qUUrp9ub4UKUkRLdXBmr6dTQyvEtwpdPnKTgTcYy1ZcHfYwYMg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENYKPO0mK0TLBrHUXlXj8lDc9Kz8Oct/YbtwX3+nwhaTF8QmmjmHGH13WNnFj1ef5A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "229689fa-8d79-45e9-8d52-1153a4a76301",
+                            SecurityStamp = "d3383e97-c473-4561-9abc-672b3a72d03c",
                             TwoFactorEnabled = false,
                             UserName = "lucasdoe@example.com"
                         },
@@ -290,9 +372,7 @@ namespace SafeBank.Migrations
                         {
                             Id = "67f0426a-a053-40e4-9f23-6cb5d7d84cd6",
                             AccessFailedCount = 0,
-                            AccountNumber = 0,
-                            Balance = 10000000m,
-                            ConcurrencyStamp = "ec88b208-d4d2-4f6e-8dcc-908e815eb49e",
+                            ConcurrencyStamp = "a4f9dfea-133f-46f2-8f04-0a47d0efeb02",
                             DateOfBirth = new DateTime(2006, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "thomasdoe@example.com",
                             EmailConfirmed = false,
@@ -300,47 +380,12 @@ namespace SafeBank.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "THOMASDOE@EXAMPLE.COM",
                             NormalizedUserName = "THOMASDOE@EXAMPLE.COM",
-                            PESEL = "22222222222",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOXjLySXlVc3179/XhzRkUJ+rzx0SDrGpzlD8yggnjeIx84IvHiQDZ/cLJ1YlXV0pg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEF0WMvwdN1kCqpwtRCr5uCHWACkrTMvkoJFNARYDkNtkG3sQt0ilTgnlEhu39vRfA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6216579e-eecc-4c97-937d-fd32d2f620b3",
+                            SecurityStamp = "b4a9dc49-a612-4895-b548-e5c1d1bbacc7",
                             TwoFactorEnabled = false,
                             UserName = "thomasdoe@example.com"
                         });
-                });
-
-            modelBuilder.Entity("SafeBank.Models.Transaction", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Amount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("RecipientId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SenderId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecipientId");
-
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("Transactions", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -354,7 +399,7 @@ namespace SafeBank.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("SafeBank.Models.AppUser", null)
+                    b.HasOne("SafeBank.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -363,7 +408,7 @@ namespace SafeBank.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("SafeBank.Models.AppUser", null)
+                    b.HasOne("SafeBank.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -378,7 +423,7 @@ namespace SafeBank.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SafeBank.Models.AppUser", null)
+                    b.HasOne("SafeBank.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -387,26 +432,22 @@ namespace SafeBank.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("SafeBank.Models.AppUser", null)
+                    b.HasOne("SafeBank.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SafeBank.Models.Transaction", b =>
+            modelBuilder.Entity("SafeBank.Models.Notification", b =>
                 {
-                    b.HasOne("SafeBank.Models.AppUser", "Recipient")
+                    b.HasOne("SafeBank.Models.Transaction", "Transaction")
                         .WithMany()
-                        .HasForeignKey("RecipientId");
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("SafeBank.Models.AppUser", "Sender")
-                        .WithMany()
-                        .HasForeignKey("SenderId");
-
-                    b.Navigation("Recipient");
-
-                    b.Navigation("Sender");
+                    b.Navigation("Transaction");
                 });
 #pragma warning restore 612, 618
         }

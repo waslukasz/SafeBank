@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<AppUser> SignInManager
-@inject UserManager<AppUser> UserManager
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 <nav>
     <a class="nav__brand" asp-area="" asp-controller="Home" asp-action="Index">SafeBank</a>
@@ -12,18 +12,7 @@
         }
         else
         {
-            <div class="nav__menu__option">
-                <i class="material-icons">notifications</i>
-                <div class="nav__menu__option__submenu">
-                    <div class="nav__menu__option__submenu__notifications-header">
-                        <i class="material-icons">notifications</i>
-                        Notifications
-                    </div>
-                    <div class="nav__menu__option__submenu__item">Your last payment for 29.13$ was succesful!</div>
-                    <div class="nav__menu__option__submenu__item">Account charged $10 for netflix subscription.</div>
-                    <div class="nav__menu__option__submenu__item">Technical break on next friday (13.01.2023).</div>
-                </div>
-            </div>
+            <partial name="_Notifications"/>
 
             <div class="nav__menu__option">
                 <i class="material-icons">person</i>

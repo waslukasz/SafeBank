@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "New payment";
 
-    // Serach user by account id
+    // Search user by account id
     // AppUser user = appDbContext.Users.Where(user => user.AccountNumber == 10000).FirstOrDefault();
 }
 @using SafeBank.Models.ViewModels
@@ -13,15 +13,15 @@
         <hr />
         <div class="account-container__panel">
             <div>
-                <label asp-for="Sender" class="title"></label>
-                <input asp-for="Sender" disabled />
-                <span asp-validation-for="Sender" class="hint"></span>
+                <label asp-for="SenderAccountNo" class="title"></label>
+                <input readonly asp-for="SenderAccountNo" value="@Model.SenderAccountNo" placeholder="Enter recipient account number" />
+                <span asp-validation-for="SenderAccountNo" class="hint"></span>
             </div>
 
             <div>
-                <label asp-for="Recipient" class="title"></label>
-                <input asp-for="Recipient" placeholder="Enter recipient account number" />
-                <span asp-validation-for="Sender" class="hint"></span>
+                <label asp-for="RecipientAccountNo" class="title"></label>
+                <input asp-for="RecipientAccountNo" placeholder="Enter recipient account number" />
+                <span asp-validation-for="RecipientAccountNo" class="hint"></span>
             </div>
 
             <div>

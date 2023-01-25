@@ -7,8 +7,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(e => e.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddTransient<TransactionRepository>();
+builder.Services.AddTransient<NotificationRepository>();
+builder.Services.AddTransient<AccountRepository>();
+builder.Services.AddTransient<UserRepository>();
 
 var app = builder.Build();
 
