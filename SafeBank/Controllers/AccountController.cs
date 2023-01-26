@@ -14,6 +14,7 @@ namespace SafeBank.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<User> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
         private readonly SignInManager<User> signInManager;
         private readonly ApplicationDbContext appDbContext;
         private readonly AccountRepository accountRepository;
@@ -21,9 +22,10 @@ namespace SafeBank.Controllers
         private readonly NotificationRepository notificationRepository;
         private readonly UserRepository userRepository;
 
-        public AccountController(UserManager<User> userManager, AccountRepository accountRepository, NotificationRepository notificationRepository, TransactionRepository transactionRepository, SignInManager<User> signInManager, UserRepository userRepository, ApplicationDbContext appDbContext)
+        public AccountController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, AccountRepository accountRepository, NotificationRepository notificationRepository, TransactionRepository transactionRepository, SignInManager<User> signInManager, UserRepository userRepository, ApplicationDbContext appDbContext)
         {
             this.userManager = userManager;
+            this.roleManager = roleManager;
             this.signInManager = signInManager;
             this.notificationRepository = notificationRepository;
             this.accountRepository = accountRepository;
@@ -98,9 +100,9 @@ namespace SafeBank.Controllers
                 {
                     await signInManager.SignInAsync(user, isPersistent: false);
 
+                    Random rand = new Random();
                     while (true)
                     {
-                        Random rand = new Random(int.Parse("0123456789".ToArray()));
                         string gen = rand.Next(10000, 99999).ToString();
 
                         if (!appDbContext.Accounts.Select(acc => acc.IBAN == gen).IsNullOrEmpty()) continue;
@@ -111,7 +113,6 @@ namespace SafeBank.Controllers
                             OwnerId = user.Id,
                             Balance = 0
                         };
-
                         appDbContext.Accounts.Add(account);
                         appDbContext.SaveChanges();
                         break;
@@ -119,6 +120,7 @@ namespace SafeBank.Controllers
                     return RedirectToAction("Index", "Account");
                 }
                 ModelState.AddModelError("Email", "User could not be created. Email already taken.");
+                return View(registerViewModel);
             }
             return View(registerViewModel);
         }
@@ -150,8 +152,8 @@ namespace SafeBank.Controllers
                 {
                     user.FullName = settingsViewModel.FullName;
                     user.Email = settingsViewModel.Email;
-                    user.UserName = settingsViewModel.Email;
                     user.DateOfBirth = settingsViewModel.DateOfBirth;
+                    await userManager.SetUserNameAsync(user, settingsViewModel.Email);
                     appDbContext.SaveChanges();
                 }
                 else
@@ -181,6 +183,12 @@ namespace SafeBank.Controllers
             if (recipient == null)
             {
                 ModelState.AddModelError("RecipientAccountNo", "This account number does not exist.");
+                return View(paymentViewModel);
+            }
+            
+            if (recipient == sender)
+            {
+                ModelState.AddModelError("RecipientAccountNo", "You can't send money to yourself!");
                 return View(paymentViewModel);
             }
 
@@ -215,7 +223,7 @@ namespace SafeBank.Controllers
         public IActionResult History()
         {
             var currentAccount = accountRepository.GetAccountByOwner(userManager.GetUserAsync(User).Result);
-            var result = appDbContext.Transactions.Where(tran => tran.Sender == currentAccount.IBAN || tran.Recipient == currentAccount.IBAN).ToList();
+            var result = appDbContext.Transactions.Where(tran => tran.Sender == currentAccount.IBAN || tran.Recipient == currentAccount.IBAN).OrderByDescending(res => res.Date).ToList();
             return View(result);
         }
     }

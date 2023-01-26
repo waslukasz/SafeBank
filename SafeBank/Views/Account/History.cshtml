@@ -28,12 +28,12 @@
             </thead>
             <tbody>
                 @{
-                    var i = 1;
+                    var i = Model.Count();
                 }
                 @foreach (var tran in Model)
                 {
                     <tr>
-                        <th scope="col">@(i++)</th>
+                        <th scope="col">@(i--)</th>
                         <td>@userRepository.GetUserByAccountIBAN(tran.Sender).FullName</td>
                         <td>@userRepository.GetUserByAccountIBAN(tran.Recipient).FullName</td>
                         <td>@tran.Title</td>

@@ -24,7 +24,7 @@ namespace SafeBank.Models
 
         public List<Notification> GetNotificationsByUser(User user)
         {
-            return appDbContext.Notifications.Where(noti => noti.Target == user.Id).ToList();
+            return appDbContext.Notifications.Include(noti => noti.Transaction).Where(noti => noti.Target == user.Id).ToList();
         }
 
         public void CreateFromTransaction(Transaction transaction)

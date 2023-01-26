@@ -47,6 +47,14 @@ namespace SafeBank.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ea215411-5883-4cf2-987f-5458599481d8",
+                            ConcurrencyStamp = "28922b68-b800-42dd-b5cf-fd06a6212f20",
+                            Name = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -134,6 +142,13 @@ namespace SafeBank.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "51dda72b-3636-4b29-b09c-62da288b7445",
+                            RoleId = "ea215411-5883-4cf2-987f-5458599481d8"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -333,7 +348,7 @@ namespace SafeBank.Migrations
                         {
                             Id = "1a7addfc-89fa-4f4e-8171-3b07035b6085",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "549f61d9-c803-4a7b-90ef-43927e94d3d6",
+                            ConcurrencyStamp = "4b6fe7a6-e64a-4bf1-ae8a-e7b4aa6fda48",
                             DateOfBirth = new DateTime(1999, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "johndoe@example.com",
                             EmailConfirmed = false,
@@ -341,9 +356,9 @@ namespace SafeBank.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "JOHNDOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHNDOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEH8BX+5ldFseaAkhSH+CurjHRzA9o0lRCnYwZaDQdsh7W3/zk9ExgAqme7rX1dmdaw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC17RAbs7C6e81jlA5aumugTAvPksrvQWgevAleI1JQD58s6Xeb8Dc4F1KyI2yakzA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0ed75c1c-52ed-40bc-9f62-eb45ea8eeca2",
+                            SecurityStamp = "fa4df588-c63c-439e-b0fe-e2bb3922424e",
                             TwoFactorEnabled = false,
                             UserName = "johndoe@example.com"
                         },
@@ -351,7 +366,7 @@ namespace SafeBank.Migrations
                         {
                             Id = "51dda72b-3636-4b29-b09c-62da288b7445",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f24430d3-0431-4ec5-86a0-86e589d50664",
+                            ConcurrencyStamp = "f4eaab8b-3a32-42f3-b122-03239fc0064f",
                             DateOfBirth = new DateTime(2001, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "lucasdoe@example.com",
                             EmailConfirmed = false,
@@ -359,9 +374,9 @@ namespace SafeBank.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "LUCASDOE@EXAMPLE.COM",
                             NormalizedUserName = "LUCASDOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAENYKPO0mK0TLBrHUXlXj8lDc9Kz8Oct/YbtwX3+nwhaTF8QmmjmHGH13WNnFj1ef5A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAH5DEFdByRS5HAGrHjq8YrwElQtKJYlZVcxORJFMEGkJ2nXD3JaP8fvCQMTnnHgFQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d3383e97-c473-4561-9abc-672b3a72d03c",
+                            SecurityStamp = "2bb91a5f-35cc-4b38-809c-ee1d8fe18fb7",
                             TwoFactorEnabled = false,
                             UserName = "lucasdoe@example.com"
                         },
@@ -369,7 +384,7 @@ namespace SafeBank.Migrations
                         {
                             Id = "67f0426a-a053-40e4-9f23-6cb5d7d84cd6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a4f9dfea-133f-46f2-8f04-0a47d0efeb02",
+                            ConcurrencyStamp = "c48c1e29-ae8b-4b18-8a4a-281c0b805d08",
                             DateOfBirth = new DateTime(2006, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "thomasdoe@example.com",
                             EmailConfirmed = false,
@@ -377,9 +392,9 @@ namespace SafeBank.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "THOMASDOE@EXAMPLE.COM",
                             NormalizedUserName = "THOMASDOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEF0WMvwdN1kCqpwtRCr5uCHWACkrTMvkoJFNARYDkNtkG3sQt0ilTgnlEhu39vRfA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEB8IkKsl40CZGNzEDxPkGpXk5Vx5W3/l6oT3bOWY0loJVJXJbw3PMzvz8AWh1W9g+A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b4a9dc49-a612-4895-b548-e5c1d1bbacc7",
+                            SecurityStamp = "6ae7555b-d2c1-4faa-a553-43c1b59d95a3",
                             TwoFactorEnabled = false,
                             UserName = "thomasdoe@example.com"
                         });

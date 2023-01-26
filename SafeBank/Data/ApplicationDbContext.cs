@@ -36,15 +36,27 @@ namespace SafeBank.Data
                 );
 
 
-            /*modelBuilder.Entity<IdentityRole>().HasData(
-                );*/
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole()
+                {
+                    Id = "ea215411-5883-4cf2-987f-5458599481d8",
+                    Name = "Admin"
+                }
+                );
+
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string>()
+                {
+                    RoleId = "ea215411-5883-4cf2-987f-5458599481d8",
+                    UserId = "51dda72b-3636-4b29-b09c-62da288b7445"
+                });
 
 
 
             var decimalProps = modelBuilder.Model
             .GetEntityTypes()
             .SelectMany(t => t.GetProperties())
-            .Where(p => (System.Nullable.GetUnderlyingType(p.ClrType) ?? p.ClrType) == typeof(decimal));
+            .Where(p => (Nullable.GetUnderlyingType(p.ClrType) ?? p.ClrType) == typeof(decimal));
 
             foreach (var property in decimalProps)
             {

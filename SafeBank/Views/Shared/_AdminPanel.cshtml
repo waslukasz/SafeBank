@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using Microsoft.EntityFrameworkCore;
+@using SafeBank.Data;
+@inject UserManager<User> userManager
+@inject AccountRepository accountRepository
+@inject UserRepository userRepository
+
+@{
+    var currentUser = userManager.GetUserAsync(User).Result;
+}
+
+
+<div class="nav__menu__option">
+    <i class="material-icons">
+        security
+    </i>
+
+    <div class="nav__menu__option__submenu">
+        <div class="nav__menu__option__submenu__user-header">
+            <i class="material-icons">security</i>
+            Admin Panel
+        </div>
+        <a asp-controller="Admin" asp-action="UserManagement" class="nav__menu__option__submenu__item">Users</a>
+        <a asp-controller="Admin" asp-action="TransactionManagement" class="nav__menu__option__submenu__item">Transactions</a>
+    </div>
+</div>

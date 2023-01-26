@@ -1,0 +1,33 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Admin - Users";
+}
+@inject AccountRepository accountRepository
+@model List<User>
+
+<table class="table">
+    <thead>
+    <th scope="col">Full Name</th>
+    <th scope="col">Date of birth</th>
+    <th scope="col">Email</th>
+    <th scope="col">Account IBAN</th>
+    <th scope="col">ID</th>
+    </thead>
+    <tbody>
+        @{
+            var i = Model.Count();
+        }
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.FullName</td>
+                <td>@user.DateOfBirth</td>
+                <td>@user.Email</td>
+                <td>@accountRepository.GetAccountByOwner(user).IBAN</td>
+                <td>@user.Id</td>
+            </tr>
+        }
+    </tbody>
+</table>

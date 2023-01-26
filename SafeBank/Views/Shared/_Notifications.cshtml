@@ -5,6 +5,7 @@
 @inject UserManager<User> userManager
 @inject AccountRepository accountRepository
 @inject UserRepository userRepository
+
 @{
     var currentUser = userManager.GetUserAsync(User).Result;
     var result = notificationRepository.GetNotificationsByUser(currentUser);
@@ -25,26 +26,32 @@
         <div class="nav__menu__option__submenu__notifications-header">
             <i class="material-icons">notifications</i>
             Notifications
-            <span class="nav__menu__option__submenu__notifications-header__title">Here are your 5 last actions.</span>
+            @if(result.Count < 1)
+            {
+                <span class="nav__menu__option__submenu__notifications-header__title">Click notification to delete it.</span>
+            }
         </div>
 
-@*        @if (result.Count() < 1)
+        @if (result.Count() < 1)
         {
             <div class="nav__menu__option__submenu__item">You have no new notifications!</div>
         }
         else
         {
-            @foreach (var noti in result)
+            foreach (var noti in result)
             {
-                if (!(noti.Target == userRepository.GetUserByAccountIBAN(accountRepository.GetAccountByOwner(currentUser).IBAN).Id))
+                var sender = userRepository.GetUserByAccountIBAN(noti.Transaction.Sender);
+                var recipient = userRepository.GetUserByAccountIBAN(noti.Transaction.Recipient);
+
+                if (noti.Transaction.Sender == accountRepository.GetAccountByOwner(currentUser).IBAN)
                 {
-                    <div class="nav__menu__option__submenu__item">You sent @noti.Transaction.Amount$ to @.FullName @recipient.FullName.</div>
+                    @Html.ActionLink($"You sent {noti.Transaction.Amount}$ to {recipient.FullName}.", "Delete", "Notification", new { id = noti.Id, returnUrl = ViewContext.HttpContext.Request.Path }, new { @class = "nav__menu__option__submenu__item" });
                 }
                 else
                 {
-                    <div class="nav__menu__option__submenu__item">@sender.FullName sent you @noti.Transaction.Amount$.</div>
+                    @Html.ActionLink($"You received {noti.Transaction.Amount}$ from {sender.FullName}.", "Delete", "Notification", new { id = noti.Id, returnUrl = ViewContext.HttpContext.Request.Path }, new { @class = "nav__menu__option__submenu__item" });
                 }
             }
-        }*@
+        }
     </div>
 </div>

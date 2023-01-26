@@ -1,0 +1,35 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Admin - transactions";
+}
+@inject TransactionRepository transactionRepository
+@model List<Transaction>
+
+<table class="table">
+    <thead>
+    <th scope="col">Id</th>
+    <th scope="col">Title</th>
+    <th scope="col">Sender</th>
+    <th scope="col">Recipient</th>
+    <th scope="col">Amount</th>
+    <th scope="col">Date</th>
+    </thead>
+    <tbody>
+        @{
+            var i = Model.Count();
+        }
+        @foreach (var tran in Model)
+        {
+            <tr scope="col">
+                <td>@tran.Id</td>
+                <td>@tran.Title</td>
+                <td>@tran.Sender</td>
+                <td>@tran.Recipient</td>
+                <td>@tran.Amount$</td>
+                <td>@tran.Date</td>
+            </tr>
+        }
+    </tbody>
+</table>

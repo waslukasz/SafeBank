@@ -12,7 +12,12 @@
         }
         else
         {
-            <partial name="_Notifications"/>
+            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                <partial name="_AdminPanel"/>
+            }
+
+            <partial name="_Notifications" />
 
             <div class="nav__menu__option">
                 <i class="material-icons">person</i>

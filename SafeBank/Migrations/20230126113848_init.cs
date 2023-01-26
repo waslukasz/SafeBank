@@ -223,14 +223,24 @@ namespace SafeBank.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "ea215411-5883-4cf2-987f-5458599481d8", "28922b68-b800-42dd-b5cf-fd06a6212f20", "Admin", null });
+
+            migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DateOfBirth", "Email", "EmailConfirmed", "FullName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1a7addfc-89fa-4f4e-8171-3b07035b6085", 0, "549f61d9-c803-4a7b-90ef-43927e94d3d6", new DateTime(1999, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "johndoe@example.com", false, "John Doe", false, null, "JOHNDOE@EXAMPLE.COM", "JOHNDOE@EXAMPLE.COM", "AQAAAAEAACcQAAAAEH8BX+5ldFseaAkhSH+CurjHRzA9o0lRCnYwZaDQdsh7W3/zk9ExgAqme7rX1dmdaw==", null, false, "0ed75c1c-52ed-40bc-9f62-eb45ea8eeca2", false, "johndoe@example.com" },
-                    { "51dda72b-3636-4b29-b09c-62da288b7445", 0, "f24430d3-0431-4ec5-86a0-86e589d50664", new DateTime(2001, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "lucasdoe@example.com", false, "Lucas Doe", false, null, "LUCASDOE@EXAMPLE.COM", "LUCASDOE@EXAMPLE.COM", "AQAAAAEAACcQAAAAENYKPO0mK0TLBrHUXlXj8lDc9Kz8Oct/YbtwX3+nwhaTF8QmmjmHGH13WNnFj1ef5A==", null, false, "d3383e97-c473-4561-9abc-672b3a72d03c", false, "lucasdoe@example.com" },
-                    { "67f0426a-a053-40e4-9f23-6cb5d7d84cd6", 0, "a4f9dfea-133f-46f2-8f04-0a47d0efeb02", new DateTime(2006, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "thomasdoe@example.com", false, "Thomas Doe", false, null, "THOMASDOE@EXAMPLE.COM", "THOMASDOE@EXAMPLE.COM", "AQAAAAEAACcQAAAAEEF0WMvwdN1kCqpwtRCr5uCHWACkrTMvkoJFNARYDkNtkG3sQt0ilTgnlEhu39vRfA==", null, false, "b4a9dc49-a612-4895-b548-e5c1d1bbacc7", false, "thomasdoe@example.com" }
+                    { "1a7addfc-89fa-4f4e-8171-3b07035b6085", 0, "4b6fe7a6-e64a-4bf1-ae8a-e7b4aa6fda48", new DateTime(1999, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "johndoe@example.com", false, "John Doe", false, null, "JOHNDOE@EXAMPLE.COM", "JOHNDOE@EXAMPLE.COM", "AQAAAAEAACcQAAAAEC17RAbs7C6e81jlA5aumugTAvPksrvQWgevAleI1JQD58s6Xeb8Dc4F1KyI2yakzA==", null, false, "fa4df588-c63c-439e-b0fe-e2bb3922424e", false, "johndoe@example.com" },
+                    { "51dda72b-3636-4b29-b09c-62da288b7445", 0, "f4eaab8b-3a32-42f3-b122-03239fc0064f", new DateTime(2001, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "lucasdoe@example.com", false, "Lucas Doe", false, null, "LUCASDOE@EXAMPLE.COM", "LUCASDOE@EXAMPLE.COM", "AQAAAAEAACcQAAAAEAH5DEFdByRS5HAGrHjq8YrwElQtKJYlZVcxORJFMEGkJ2nXD3JaP8fvCQMTnnHgFQ==", null, false, "2bb91a5f-35cc-4b38-809c-ee1d8fe18fb7", false, "lucasdoe@example.com" },
+                    { "67f0426a-a053-40e4-9f23-6cb5d7d84cd6", 0, "c48c1e29-ae8b-4b18-8a4a-281c0b805d08", new DateTime(2006, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "thomasdoe@example.com", false, "Thomas Doe", false, null, "THOMASDOE@EXAMPLE.COM", "THOMASDOE@EXAMPLE.COM", "AQAAAAEAACcQAAAAEB8IkKsl40CZGNzEDxPkGpXk5Vx5W3/l6oT3bOWY0loJVJXJbw3PMzvz8AWh1W9g+A==", null, false, "6ae7555b-d2c1-4faa-a553-43c1b59d95a3", false, "thomasdoe@example.com" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "ea215411-5883-4cf2-987f-5458599481d8", "51dda72b-3636-4b29-b09c-62da288b7445" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

@@ -7,7 +7,7 @@ namespace SafeBank.Models.ViewModels
     public class RegisterViewModel
     {
         [Required(ErrorMessage = "This field is required!")]
-        [RegularExpression("^([a-zA-Z]{1,30}\\s[a-zA-Z]{1,30}\\s[a-zA-Z]{1,30})|([a-zA-Z]{1,30}\\s[a-zA-Z]{1,30})$", ErrorMessage = "There may only be letters in your name.")]
+        [RegularExpression("^([a-zA-Z]{1,30}\\s[a-zA-Z]{1,30}\\s[a-zA-Z]{1,30})|([a-zA-Z]{1,30}\\s[a-zA-Z]{1,30})$", ErrorMessage = "There may only be letters in your name. Format: Firstname Surname")]
         [Display(Name = "Full name")]
         public string FullName { get; set; }
 
@@ -26,6 +26,7 @@ namespace SafeBank.Models.ViewModels
         [Required(ErrorMessage = "This field is required!")]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [Display(Name = "Password")]
+        [RegularExpression("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|\\]).{6,32}$", ErrorMessage = "Password should have at least 6 characters, 1 number, 1 uppercase, 1 lowercase and 1 special character.")]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "This field is required!")]

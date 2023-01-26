@@ -27,6 +27,17 @@ namespace SafeBank.Models
             appDbContext.SaveChanges();
         }
 
+        public void RevertTransaction(Transaction transaction)
+        {
+            var senderAccount = accountRepository.GetAccountByIBAN(transaction.Sender);
+            var recipientAccount = accountRepository.GetAccountByIBAN(transaction.Recipient);
+            senderAccount.Balance += transaction.Amount;
+            recipientAccount.Balance -= transaction.Amount;
+
+            appDbContext.Transactions.Remove(transaction);
+            appDbContext.SaveChanges();
+        }
+
         public List<Transaction> GetTransactionsByAccount(Account account)
         {
             return appDbContext.Transactions.Include(tran => tran.Sender).Include(tran => tran.Recipient).Where(tran => tran.Sender == account.IBAN || tran.Recipient == account.IBAN).ToList();
