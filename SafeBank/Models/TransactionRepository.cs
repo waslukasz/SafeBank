@@ -42,5 +42,16 @@ namespace SafeBank.Models
         {
             return appDbContext.Transactions.Include(tran => tran.Sender).Include(tran => tran.Recipient).Where(tran => tran.Sender == account.IBAN || tran.Recipient == account.IBAN).ToList();
         }
+
+        public IQueryable<Transaction> GetTransactionsById(int id)
+        {
+            return appDbContext.Transactions.Include(tran => tran.Sender).Include(tran => tran.Recipient).Where(tran => tran.Id == id);
+        }
+
+        public void DeleteTransaction(Transaction transaction)
+        {
+            appDbContext.Transactions.Remove(transaction);
+            appDbContext.SaveChanges();
+        }
     }
 }
