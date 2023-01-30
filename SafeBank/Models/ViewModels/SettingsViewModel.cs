@@ -9,7 +9,7 @@ namespace SafeBank.Models.ViewModels
         [Display(Name = "Current password")]
         public string CurrentPassword { get; set; }
 
-        [RegularExpression("^([a-zA-Z]{1,30}\\s[a-zA-Z]{1,30}\\s[a-zA-Z]{1,30})|([a-zA-Z]{1,30}\\s[a-zA-Z]{1,30})$", ErrorMessage = "There may only be letters in your name.")]
+        [RegularExpression("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", ErrorMessage = "There may only be letters in your name.")]
         [Display(Name = "Full name")]
         public string FullName { get; set; }
 

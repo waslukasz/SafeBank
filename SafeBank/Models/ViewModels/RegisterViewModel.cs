@@ -24,9 +24,8 @@ namespace SafeBank.Models.ViewModels
         public DateTime DateOfBirth { get; set; }
 
         [Required(ErrorMessage = "This field is required!")]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [Display(Name = "Password")]
-        [RegularExpression("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|\\]).{6,32}$", ErrorMessage = "Password should have at least 6 characters, 1 number, 1 uppercase, 1 lowercase and 1 special character.")]
+        [RegularExpression("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$", ErrorMessage = "Password should have at least 6 characters, 1 number, 1 uppercase, 1 lowercase and 1 special character.")]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "This field is required!")]

@@ -15,6 +15,17 @@ builder.Services.AddTransient<NotificationRepository>();
 builder.Services.AddTransient<AccountRepository>();
 builder.Services.AddTransient<UserRepository>();
 
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 0;
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredUniqueChars = 1;
+}
+);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

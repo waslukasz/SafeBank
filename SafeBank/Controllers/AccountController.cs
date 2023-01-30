@@ -105,7 +105,7 @@ namespace SafeBank.Controllers
                     {
                         string gen = rand.Next(10000, 99999).ToString();
 
-                        if (!appDbContext.Accounts.Select(acc => acc.IBAN == gen).IsNullOrEmpty()) continue;
+                        if (appDbContext.Accounts.Any(acc => acc.IBAN == gen)) continue;
 
                         Account account = new Account()
                         {
